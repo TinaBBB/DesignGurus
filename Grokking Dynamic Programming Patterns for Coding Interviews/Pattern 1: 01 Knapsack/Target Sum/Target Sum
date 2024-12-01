@@ -1,0 +1,23 @@
+class Solution:
+  def findTargetSubsets(self, num, s):
+    # Need to use a top-down tabulation solution, as the actions
+    # leeds to dynamic results of states
+    dp = {}
+
+    def dfs(idx, curr_sum):
+      # Base cases
+      # Only start to return results at the end of the array
+      if idx >= len(num):
+        if curr_sum == s:
+          return 1
+        return 0
+      if (idx, curr_sum) in dp:
+        return dp[(idx, curr_sum)]
+      
+      # For each action, check results
+      num_ways = dfs(idx+1, curr_sum+num[idx]) + dfs(idx+1, curr_sum-num[idx])
+      dp[(idx, curr_sum)] = num_ways
+      return num_ways
+    
+    return dfs(0, 0)
+
